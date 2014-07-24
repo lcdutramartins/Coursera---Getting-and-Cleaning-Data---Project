@@ -1,8 +1,8 @@
 ## loading all source code needed to run data analysis
-# source("getRawDataFiles.R")
+source("getRawDataFiles.R")
 
 ## getting all necessary files
-# rawDataFilePaths <- getRawDataFiles()
+rawDataFilePaths <- getRawDataFiles()
 
 ## metadata
 Activities <- read.table(".\\UCI HAR Dataset\\activity_labels.txt")
@@ -28,3 +28,14 @@ resultNames <- c("Type", "Subject", "ActivityId", "Activity", as.character(Featu
 names(TrainData) <- resultNames
 names(TestData) <- resultNames
 result <- rbind(TrainData, TestData)
+
+## writing tidy data set
+write.table(result, file="result.txt", append=FALSE, quote=FALSE, row.names=FALSE)
+
+## summarizing tidy data set
+aggregateResult <- aggregate(result, by=list(result$Subject, result$Activity), FUN=mean, na.rm=TRUE)
+averageResult <- aggregateResult[, !(names(aggregateResult) %in% c("Type", "Subject", "ActivityId", "Activity"))]
+names(averageResult) <- c("Subject", "Activity", paste("MEAN-", as.character(Features[FeaturesIndexes,2]), sep=""))
+
+## writing summarized data set (mean of all variables for each person and each Activity)
+write.table(averageResult, file="average.txt", append=FALSE, quote=FALSE, row.names=FALSE)
