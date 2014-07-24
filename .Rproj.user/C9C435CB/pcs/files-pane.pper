@@ -1,0 +1,9 @@
+{
+    "path" : "E:/Work/GitHub/Coursera---Getting-and-Cleaning-Data---Project/UCI HAR Dataset/test",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}
